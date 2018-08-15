@@ -6,11 +6,6 @@ body {
     -moz-user-select: none;
     -khtml-user-select: none;
     -ms-user-select: none;
-    text-align: center;
-}
-
-h1, h2, h3 {
-    color: #FFF;
 }
 
 canvas { 
