@@ -1,59 +1,41 @@
-"use strict";
+kontra.init();
 
-var $ = {};
+kontra.assets.images = 'assets/imgs/';
 
-$.width = 600;
-$.height = 600;
+kontra.loadAssets('background.png','enemy.png','main.png').then(
+    function () {
+        var background = kontra.sprite({
+            x: 0,
+            y: 0,
+            image: kontra.images.background
+        });
 
-$.colors = {
-    yellow: 'rgba(255, 255, 155, 1)',
-    orange: 'rgba(255, 77, 77, 1)',
-    pink: 'rgba(255, 128, 255, 1)',
-    green: 'rgba(129, 255, 226, 1)',
-    blue: 'rgba(94, 0, 244, 1)'
-};
+        var main = kontra.sprite({
+            x: 120,
+            y: 240,
+            image: kontra.images.main
+        });
 
-$.entities = [];
+        var enemy = kontra.sprite({
+            x: 120,
+            y: 240,
+            image: kontra.images.enemy
+        });
 
-$.init = function () {
-    $.canvas = document.getElementsByTagName('canvas')[0];
-    $.canvas.width = $.width;
-    $.canvas.height = $.height;
-    $.ctx = $.canvas.getContext('2d');
-
-    $.generateRandomObjects();
-
-    $.loop();
-};
-
-$.loop = function () {
-    $.render();
-    $.update();
-
-    window.requestAnimFrame($.loop);
-};
-
-$.update = function () {
-    for (var i = 0; i < $.entities.length; i++) {
-        $.entities[i].update();    
     }
-};
+);
 
-$.render = function () {
-    $.Draw.clear();
 
-    for (var i = 0; i < $.entities.length; i++) {
-        $.entities[i].render();    
+
+
+var loop  = kontra.gameLoop({
+    update: function () {
+        console.log(sprite.x+" - "+sprite.y)
+        sprite.update();
+    },
+    render: function () {
+        sprite.render();
     }
-};
+});
 
-$.generateRandomObjects = function () {
-    $.entities = [];
-
-    for (var i = 0; i < 50; i++) {
-        $.entities.push(new $.RandomObj());
-    }
-};
-
-window.addEventListener('load', $.init, false);
-window.addEventListener('click', $.generateRandomObjects);
+loop.start();

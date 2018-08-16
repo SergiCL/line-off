@@ -1,3 +1,4 @@
+
 var gulp          = require('gulp'),
     webserver     = require('gulp-webserver'),
     opn           = require('opn'),
@@ -24,16 +25,19 @@ var gulp          = require('gulp'),
     distPaths = {
         build: '_build',
         js_build_file: 'game.min.js',
+        kontra_build_file: 'kontra_min.js',
         css_build_file: 'game.min..css'
     },
 
     sourcePaths = {
         css: [
-            'src/css/*.css', 
+            'src/css/*.css',
         ],
         js: [
-            'src/js/game.js', 
-            'src/js/*.js'
+            'src/js/game.js'
+        ],
+        kontra: [
+            'src/js/kontra.js'
         ],
         mainHtml: [
             'src/index.html' 
@@ -70,15 +74,22 @@ gulp.task('buildJS', function () {
         .pipe(gulp.dest(distPaths.build));
 });
 
+gulp.task('buildKontra', function () {
+    return gulp.src(sourcePaths.kontra)
+        .pipe(concat(distPaths.kontra_build_file))
+        .pipe(uglify())
+        .pipe(gulp.dest(distPaths.build));
+});
+
 gulp.task('buildIndex', function () {
     return gulp.src(sourcePaths.mainHtml)
         .pipe(replaceHTML({
             'css': distPaths.css_build_file,
-            'js': distPaths.js_build_file
+            'js': [distPaths.js_build_file, distPaths.kontra_build_file],
         }))
         .pipe(minifyHTML())
         .pipe(rename('index.html'))
-        .pipe(gulp.dest(distPaths.build));
+        .pipe(gulp.dest(distPaths.build))
 });
 
 gulp.task('cleanBuild', function () {
@@ -102,5 +113,5 @@ gulp.task('watch', function () {
     gulp.watch(sourcePaths.mainHtml, ['buildIndex', 'zipBuild']);
 });
 
-gulp.task('build', ['buildJS', 'buildCSS', 'buildIndex', 'zipBuild']);
+gulp.task('build', ['buildKontra', 'buildJS', 'buildCSS', 'buildIndex', 'zipBuild']);
 gulp.task('default', ['build', 'serve', 'watch']);
