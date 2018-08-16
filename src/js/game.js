@@ -1,40 +1,39 @@
 kontra.init();
 
-kontra.assets.images = 'assets/imgs/';
+var canvas = document.getElementById("canvas");
 
-kontra.loadAssets('background.png','enemy.png','main.png').then(
-    function () {
-        var background = kontra.sprite({
-            x: 0,
-            y: 0,
-            image: kontra.images.background
-        });
+var player = kontra.sprite({
+    x: 140,
+    y: 65,
+    color: 'cyan',
+    width: 20,
+    height: 20,
 
-        var main = kontra.sprite({
-            x: 120,
-            y: 240,
-            image: kontra.images.main
-        });
+    update: function() {
+        if (this.x > 0 && kontra.keys.pressed('left')){
+            this.x -= 1
+        }
+        else if (this.x < (canvas.width - this.width) && kontra.keys.pressed('right')) {
+            this.x += 1
+        }
 
-        var enemy = kontra.sprite({
-            x: 120,
-            y: 240,
-            image: kontra.images.enemy
-        });
-
+        if (this.y > 0 && kontra.keys.pressed('up')) {
+            this.y -= 1
+        }
+        else if (this.y < (canvas.height - this.height) && kontra.keys.pressed('down')) {
+            this.y += 1
+        }
     }
-);
-
-
+});
 
 
 var loop  = kontra.gameLoop({
     update: function () {
-        console.log(sprite.x+" - "+sprite.y)
-        sprite.update();
+        player.update();
+        console.log(player.x+" - "+player.y);
     },
     render: function () {
-        sprite.render();
+        player.render();
     }
 });
 
