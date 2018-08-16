@@ -13,7 +13,7 @@ canvas {
     margin: auto;
     display: block;
     width: 800px;
-    height: 600px;
+    height: auto;
     position: absolute;
     top: 0;
     bottom: 0;
