@@ -2,9 +2,64 @@ kontra.init();
 
 var canvas = document.getElementById("canvas");
 
+var img = new Image();
+img.src = './assets/imgs/lights.png';
+
+var spriteSheet = kontra.spriteSheet({
+    image: img,
+    frameWidth: 22.5,
+    frameHeight: 14,
+    animations: {
+        shine: {
+            frames: [1,2,3],
+            frameRate: 6,
+            loop: true
+        },
+        off: {
+            frames: [0],
+            frameRate: 0,
+            loop: false,
+        }
+    }
+});
+
+
+function Light (x,y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = kontra.sprite({
+        animations: spriteSheet.animations,
+
+        update: function () {
+            this.animations.shine.update();
+        },
+
+        render: function () {
+            this.animations.shine.render({x:x, y:y});
+        }
+    });
+}
+
+function Line (first_x, y, numOfPoints, isHorizontal) {
+    this.first_x = first_x;
+    this.y = y;
+    this.numOfPoints = numOfPoints;
+    this.isHorizontal = isHorizontal;
+
+    this.lightList = new Array();
+    this.lightWidth = 20;
+
+    for (i=0; i < numOfPoints; i++) {
+        this.lightList.push(new Light(this.first_x + this.lightWidth*i, 20));
+    }
+}
+
+var line1 = new Line(20,10,13,true);
+
+/*Player*/
 var player = kontra.sprite({
     x: 140,
-    y: 65,
+    y: 90,
     color: 'cyan',
     width: 20,
     height: 20,
@@ -33,13 +88,12 @@ var player = kontra.sprite({
 
 var enemy = kontra.sprite({
     x: 150,
-    y: 40,
+    y: 60,
     color: 'orange',
     radius: 4,
 
     render: function() {
         this.context.fillStyle = this.color;
-
         this.context.beginPath();
         this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         this.context.fill();
@@ -48,18 +102,23 @@ var enemy = kontra.sprite({
 
 function resetGame() {
     player.x = 140;
-    player.y = 65;
-    enemy.x = 150;
-    enemy.y = 40;
+    player.y = 90;
 }
+
 
 var loop  = kontra.gameLoop({
     update: function () {
         player.update();
         enemy.update();
-        console.log(player.x+" - "+player.y);
+
+        line1.lightList.forEach(function(light) {
+            light.sprite.update();
+        });
     },
     render: function () {
+        line1.lightList.forEach(function(light) {
+            light.sprite.render({x:light.x, y:light.y});
+        });
         player.render();
         enemy.render();
     }

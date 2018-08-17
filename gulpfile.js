@@ -11,6 +11,7 @@ var gulp          = require('gulp'),
     replaceHTML   = require('gulp-html-replace'),
     rimraf        = require('gulp-rimraf'),
     ignore        = require('gulp-ignore'),
+    imagemin      = require('gulp-imagemin'),
     zip           = require('gulp-zip'),
     checkFileSize = require('gulp-check-filesize'),
     watch         = require('gulp-watch'),
@@ -26,7 +27,8 @@ var gulp          = require('gulp'),
         build: '_build',
         js_build_file: 'game.min.js',
         kontra_build_file: 'kontra_min.js',
-        css_build_file: 'game.min..css'
+        css_build_file: 'game.min..css',
+        imgs: '/imgs/*'
     },
 
     sourcePaths = {
@@ -38,6 +40,9 @@ var gulp          = require('gulp'),
         ],
         kontra: [
             'src/js/kontra.js'
+        ],
+        imgs: [
+            'src/assets/imgs/*'
         ],
         mainHtml: [
             'src/index.html' 
@@ -72,6 +77,12 @@ gulp.task('buildJS', function () {
         .pipe(concat(distPaths.js_build_file))
         .pipe(uglify())
         .pipe(gulp.dest(distPaths.build));
+});
+
+gulp.task('optimizeImages',function () {
+    return gulp.src(sourcePaths.imgs)
+        .pipe(imagemin())
+        .pipe(gulp.dest(distPaths.build+'/imgs'))
 });
 
 gulp.task('buildKontra', function () {
@@ -111,7 +122,8 @@ gulp.task('watch', function () {
     gulp.watch(sourcePaths.css, ['buildCSS', 'zipBuild']);
     gulp.watch(sourcePaths.js, ['buildJS', 'zipBuild']);
     gulp.watch(sourcePaths.mainHtml, ['buildIndex', 'zipBuild']);
+    gulp.watch(sourcePaths.imgs, ['optimizeImages', 'zipBuild']);
 });
 
-gulp.task('build', ['buildKontra', 'buildJS', 'buildCSS', 'buildIndex', 'zipBuild']);
+gulp.task('build', ['optimizeImages', 'buildKontra', 'buildJS', 'buildCSS', 'buildIndex', 'zipBuild']);
 gulp.task('default', ['build', 'serve', 'watch']);

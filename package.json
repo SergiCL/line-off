@@ -8,16 +8,21 @@
   },
   "author": "Ayman Farhat",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-unused": "^0.2.1"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-check-filesize": "^2.0.1",
     "gulp-concat": "^2.6.0",
     "gulp-html-replace": "^1.5.1",
     "gulp-ignore": "^1.2.1",
+    "gulp-image-optimization": "^0.1.3",
+    "gulp-imagemin": "^4.1.0",
     "gulp-jshint": "^1.11.2",
     "gulp-minify-css": "^1.2.1",
     "gulp-minify-html": "^1.0.4",
+    "gulp-remove-code": "^3.0.2",
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.1.1",
     "gulp-terser": "^1.0.1",
