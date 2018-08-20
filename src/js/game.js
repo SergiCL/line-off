@@ -39,7 +39,7 @@ function Light (x,y) {
         }
     });
 
-    Light.prototype.turnOff = function() {
+    Light.prototype.turnOff = function(x,y) {
        this.sprite =  kontra.sprite({
            animations: spriteSheet.animations,
 
@@ -48,12 +48,12 @@ function Light (x,y) {
            },
 
            render: function () {
-               this.animations.off.render({x:this.x, y:this.y});
+               this.animations.off.render({x:x, y:y});
            }
        });
     };
 
-    Light.prototype.turnOn = function() {
+    Light.prototype.turnOn = function(x,y) {
         this.sprite =  kontra.sprite({
             animations: spriteSheet.animations,
 
@@ -62,7 +62,7 @@ function Light (x,y) {
             },
 
             render: function () {
-                this.animations.shine.render({x:this.x, y:this.y});
+                this.animations.shine.render({x:x, y:y});
             }
         });
     }
@@ -71,6 +71,7 @@ function Light (x,y) {
 function Line (first_x, y, numOfPoints, isHorizontal) {
     this.first_x = first_x;
     this.y = y;
+    this.isOn = true;
     this.numOfPoints = numOfPoints;
     this.isHorizontal = isHorizontal;
 
@@ -83,14 +84,18 @@ function Line (first_x, y, numOfPoints, isHorizontal) {
 
     Line.prototype.turnOff = function() {
         line1.lightList.forEach(function(light) {
-            light.turnOff();
+            light.turnOff(light.x, light.y);
+            console.log("Turned Off");
         });
+        line1.isOn = false;
     }
 
     Line.prototype.turnOn = function() {
         line1.lightList.forEach(function(light) {
-            light.turnOn();
+            light.turnOn(light.x, light.y);
+            console.log("Turned On");
         });
+        line1.isOn = true;
     }
 }
 
@@ -120,7 +125,10 @@ var player = kontra.sprite({
         }
 
         if(this.collidesWith(enemy)) {
-            line1.turnOff();
+            if(line1.isOn)
+                line1.turnOff();
+            else
+                line1.turnOn();
             resetGame();
         }
     }

@@ -36,10 +36,10 @@ var gulp          = require('gulp'),
             'src/css/*.css',
         ],
         js: [
-            'src/js/game.js'
+            'src/js/*.js'
         ],
         kontra: [
-            'src/js/kontra.js'
+            'src/js/kontra/kontra.js'
         ],
         imgs: [
             'src/assets/imgs/*'
@@ -82,7 +82,7 @@ gulp.task('buildJS', function () {
 gulp.task('optimizeImages',function () {
     return gulp.src(sourcePaths.imgs)
         .pipe(imagemin())
-        .pipe(gulp.dest(distPaths.build+'/imgs'))
+        .pipe(gulp.dest(distPaths.build+'/imgs/assets'))
 });
 
 gulp.task('buildKontra', function () {
