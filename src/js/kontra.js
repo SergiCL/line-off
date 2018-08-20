@@ -111,9 +111,10 @@ this.kontra = {
     _tick: new Function
 };
 
+/*
 (function(kontra, requestAnimationFrame, performance) {
 
-    /**
+    /!**
      * Game loop that updates and renders the game every frame.
      * @memberof kontra
      *
@@ -122,7 +123,7 @@ this.kontra = {
      * @param {boolean}  [properties.clearCanvas=true] - Clear the canvas every frame.
      * @param {function} properties.update - Function called to update the game.
      * @param {function} properties.render - Function called to render the game.
-     */
+     *!/
     kontra.gameLoop = function(properties) {
         properties = properties || {};
 
@@ -144,9 +145,9 @@ this.kontra = {
             });
         var last, rAF, now, dt;
 
-        /**
+        /!**
          * Called every frame of the game loop.
-         */
+         *!/
         function frame() {
             rAF = requestAnimationFrame(frame);
 
@@ -178,19 +179,19 @@ this.kontra = {
             render: properties.render,
             isStopped: true,
 
-            /**
+            /!**
              * Start the game loop.
              * @memberof kontra.gameLoop
-             */
+             *!/
             start: function start() {
                 last = performance.now();
                 this.isStopped = false;
                 requestAnimationFrame(frame);
             },
 
-            /**
+            /!**
              * Stop the game loop.
-             */
+             *!/
             stop: function stop() {
                 this.isStopped = true;
                 cancelAnimationFrame(rAF);
@@ -206,8 +207,9 @@ this.kontra = {
         return gameLoop;
     };
 })(kontra, requestAnimationFrame, performance);
+*/
 
-(function(Promise) {
+/*(function(Promise) {
     var imageRegex = /(jpeg|jpg|gif|png)$/;
     var audioRegex = /(wav|mp3|ogg|aac)$/;
     var noRegex = /^no$/;
@@ -222,10 +224,10 @@ this.kontra = {
         aac: audio.canPlayType('audio/aac;').replace(noRegex,'')
     };
 
-    /**
+    /!**
      * Join a path with proper separators.
      * @see https://stackoverflow.com/a/43888647/2124254
-     */
+     *
     function joinPath() {
         var path = [], i = 0;
 
@@ -240,26 +242,26 @@ this.kontra = {
         }
 
         return path.join('/');
-    }
+    }*!/
 
-    /**
+    /!**
      * Get the extension of an asset.
      *
      * @param {string} url - The URL to the asset.
      *
      * @returns {string}
-     */
+     *!/
     function getExtension(url) {
         return url.split('.').pop();
     }
 
-    /**
+    /!**
      * Get the name of an asset.
      *
      * @param {string} url - The URL to the asset.
      *
      * @returns {string}
-     */
+     *!/
     function getName(url) {
         var name = url.replace('.' + getExtension(url), '');
 
@@ -267,7 +269,7 @@ this.kontra = {
         return (name.indexOf('/') == 0 && name.lastIndexOf('/') == 0 ? name.substr(1) : name);
     }
 
-    /**
+    /!**
      * Load an Image file. Uses imagePath to resolve URL.
      * @memberOf kontra.assets
      * @private
@@ -279,7 +281,7 @@ this.kontra = {
      * @example
      * kontra.loadImage('car.png');
      * kontra.loadImage('autobots/truck.png');
-     */
+     *!/
     function loadImage(url) {
         var name = getName(url);
         var image = new Image();
@@ -302,8 +304,9 @@ this.kontra = {
             image.src = url;
         });
     }
+/!*
 
-    /**
+    /!**
      * Load an Audio file. Supports loading multiple audio formats which will be resolved by
      * the browser in the order listed. Uses audioPath to resolve URL.
      * @memberOf kontra.assets
@@ -316,7 +319,7 @@ this.kontra = {
      * @example
      * kontra.loadAudio('sound_effects/laser.mp3');
      * kontra.loadAudio(['explosion.mp3', 'explosion.m4a', 'explosion.ogg']);
-     */
+     *!/
     function loadAudio(url) {
         var self = kontra.assets;
         var audioAssets = self.audio;
@@ -358,8 +361,9 @@ this.kontra = {
             }
         });
     }
+*!/
 
-    /**
+   /!* /!**
      * Load a data file (be it text or JSON). Uses dataPath to resolve URL.
      * @memberOf kontra.assets
      * @private
@@ -371,7 +375,7 @@ this.kontra = {
      * @example
      * kontra.loadData('bio.json');
      * kontra.loadData('dialog.txt');
-     */
+     *!/
     function loadData(url) {
         var name = getName(url);
         var req = new XMLHttpRequest();
@@ -402,11 +406,11 @@ this.kontra = {
             req.send();
         });
     }
-
-    /**
+*!/
+    /!**
      * Object for loading assets.
-     */
-    kontra.assets = {
+     *!/
+    /!*kontra.assets = {
         // all assets are stored by name as well as by URL
         images: {},
         audio: {},
@@ -417,7 +421,7 @@ this.kontra = {
         audioPath: '',
         dataPath: '',
 
-        /**
+        /!**
          * Load an Image, Audio, or data file.
          * @memberOf kontra.assets
          *
@@ -430,7 +434,7 @@ this.kontra = {
          * kontra.loadAsset(['explosion.mp3', 'explosion.ogg']);
          * kontra.loadAsset('bio.json');
          * kontra.loadAsset('car.png', ['explosion.mp3', 'explosion.ogg'], 'bio.json');
-         */
+         *!/
         load: function loadAsset() {
             var promises = [];
             var url, extension, asset, i, promise;
@@ -457,8 +461,8 @@ this.kontra = {
 
         // expose properties for testing
         _canUse: canUse
-    };
-})(Promise);
+    };*!/
+})(Promise);*/
 (function(kontra, requestAnimationFrame, performance) {
 
     /**
@@ -708,6 +712,9 @@ this.kontra = {
         }
     };
 })();
+
+
+/*
 (function(kontra, addEventListener) {
     var pointer;
 
@@ -739,15 +746,15 @@ this.kontra = {
     // update ~once every two frames
     addEventListener('mousemove', throttle(mouseMoveHandler, 32));
 
-    /**
+    /!**
      * Throttle a function to only fire once every time limit.
      * @see https://codeburst.io/throttling-and-debouncing-in-javascript-b01cad5c8edf
      * @private
      *
      * @param {function} func - Function to throttle.
      * @param {number} limit - Milliseconds to throttle.
-     */
-    /* istanbul ignore next */
+     *!/
+    /!* istanbul ignore next *!/
     function throttle(func, limit) {
         var lastFunc, lastRan;
         return function() {
@@ -768,25 +775,25 @@ this.kontra = {
         }
     }
 
-    /**
+    /!**
      * Detection collision between a rectangle and a circle.
      * @see https://yal.cc/rectangle-circle-intersection-test/
      * @private
      *
      * @param {object} object - Object to check collision against.
-     */
+     *!/
     function circleRectCollision(object) {
         var dx = pointer.x - Math.max(object.x, Math.min(pointer.x, object.x + object.width));
         var dy = pointer.y - Math.max(object.y, Math.min(pointer.y, object.y + object.height));
         return (dx * dx + dy * dy) < (pointer.radius * pointer.radius);
     }
 
-    /**
+    /!**
      * Get the first on top object that the pointer collides with.
      * @private
      *
      * @returns {object} First object to collide with the pointer.
-     */
+     *!/
     function getCurrentObject() {
 
         // if pointer events are required on the very first frame or without a game loop,
@@ -811,57 +818,57 @@ this.kontra = {
         }
     }
 
-    /**
+    /!**
      * Execute the onDown callback for an object.
      * @private
      *
      * @param {Event} e
-     */
+     *!/
     function pointerDownHandler(e) {
         var button = buttonMap[e.button];
         pressedButtons[button] = true;
         pointerHandler(e, 'onDown');
     }
 
-    /**
+    /!**
      * Execute the onUp callback for an object.
      * @private
      *
      * @param {Event} e
-     */
+     *!/
     function pointerUpHandler(e) {
         var button = buttonMap[e.button];
         pressedButtons[button] = false;
         pointerHandler(e, 'onUp');
     }
 
-    /**
+    /!**
      * Track the position of the mouse.
      * @private
      *
      * @param {Event} e
-     */
+     *!/
     function mouseMoveHandler(e) {
         pointerHandler(e, 'onOver');
     }
 
-    /**
+    /!**
      * Reset pressed buttons.
      * @private
      *
      * @param {Event} e
-     */
+     *!/
     function blurEventHandler(e) {
         pressedButtons = {};
     }
 
-    /**
+    /!**
      * Find the first object for the event and execute it's callback function
      * @private
      *
      * @param {Event} e
      * @param {string} event - Which event was called.
-     */
+     *!/
     function pointerHandler(e, event) {
         if (!kontra.canvas) return;
 
@@ -894,20 +901,20 @@ this.kontra = {
         }
     }
 
-    /**
+    /!**
      * Object for using the pointer.
-     */
+     *!/
     var pointer = kontra.pointer = {
         x: 0,
         y: 0,
         radius: 5,  // arbitrary size
 
-        /**
+        /!**
          * Register object to be tracked by pointer events.
          * @memberof kontra.pointer
          *
          * @param {object|object[]} objects - Object or objects to track.
-         */
+         *!/
         track: function track(objects) {
             objects = (Array.isArray(objects) ? objects : [objects]);
 
@@ -928,12 +935,12 @@ this.kontra = {
             }
         },
 
-        /**
+        /!**
          * Remove object from being tracked by pointer events.
          * @memberof kontra.pointer
          *
          * @param {object|object[]} objects - Object or objects to stop tracking.
-         */
+         *!/
         untrack: function untrack(objects) {
             objects = (Array.isArray(objects) ? objects : [objects]);
 
@@ -958,48 +965,48 @@ this.kontra = {
             }
         },
 
-        /**
+        /!**
          * Returns whether a tracked object is under the pointer.
          * @memberof kontra.pointer
          *
          * @param {object} object - Object to check
          *
          * @returns {boolean}
-         */
+         *!/
         over: function onOver(object) {
             if (trackedObjects.indexOf(object) === -1) return false;
 
             return getCurrentObject() === object;
         },
 
-        /**
+        /!**
          * Register a function to be called on pointer down.
          * @memberof kontra.pointer
          *
          * @param {function} callback - Function to execute
-         */
+         *!/
         onDown: function onDown(callback) {
             callbacks.onDown = callback;
         },
 
-        /**
+        /!**
          * Register a function to be called on pointer up.
          * @memberof kontra.pointer
          *
          * @param {function} callback - Function to execute
-         */
+         *!/
         onUp: function onUp(callback) {
             callbacks.onUp = callback;
         },
 
-        /**
+        /!**
          * Returns whether the button is pressed.
          * @memberof kontra.pointer
          *
          * @param {string} button - Button to check for press.
          *
          * @returns {boolean}
-         */
+         *!/
         pressed: function pointerPressed(button) {
             return !!pressedButtons[button]
         }
@@ -1016,9 +1023,11 @@ this.kontra = {
         thisFrameRenderOrder.length = 0;
     };
 })(kontra, window.addEventListener);
-(function(kontra) {
+*/
 
-    /**
+/*(function(kontra) {
+
+    /!**
      * Object pool. The pool will grow in size to accommodate as many objects as are needed.
      * Unused items are at the front of the pool and in use items are at the of the pool.
      * @memberof kontra
@@ -1026,7 +1035,7 @@ this.kontra = {
      * @param {object} properties - Properties of the pool.
      * @param {function} properties.create - Function that returns the object to use in the pool.
      * @param {number} properties.maxSize - The maximum size that the pool will grow to.
-     */
+     *!/
     kontra.pool = function(properties) {
         properties = properties || {};
 
@@ -1054,12 +1063,12 @@ this.kontra = {
             size: 1,
             maxSize: properties.maxSize || Infinity,
 
-            /**
+            /!**
              * Get an object from the pool.
              * @memberof kontra.pool
              *
              * @param {object} properties - Properties to pass to object.init().
-             */
+             *!/
             get: function get(properties) {
                 properties = properties || {};
 
@@ -1092,32 +1101,32 @@ this.kontra = {
                 inUse++;
             },
 
-            /**
+            /!**
              * Return all objects that are alive from the pool.
              * @memberof kontra.pool
              *
              * @returns {object[]}
-             */
+             *!/
             getAliveObjects: function getAliveObjects() {
                 return this.objects.slice(this.objects.length - inUse);
             },
 
-            /**
+            /!**
              * Clear the object pool.
              * @memberof kontra.pool
-             */
+             *!/
             clear: function clear() {
                 inUse = lastIndex = this.objects.length = 0;
                 this.size = 1;
                 this.objects.push(this.create());
             },
 
-            /**
+            /!**
              * Update all alive pool objects.
              * @memberof kontra.pool
              *
              * @param {number} dt - Time since last update.
-             */
+             *!/
             update: function update(dt) {
                 var i = lastIndex;
                 var obj;
@@ -1159,10 +1168,10 @@ this.kontra = {
                 }
             },
 
-            /**
+            /!**
              * render all alive pool objects.
              * @memberof kontra.pool
-             */
+             *!/
             render: function render() {
                 var index = Math.max(this.objects.length - inUse, 0);
 
@@ -1172,9 +1181,11 @@ this.kontra = {
             }
         };
     };
-})(kontra);
+})(kontra);*/
+
+/*
 (function(kontra) {
-    /**
+    /!**
      * A quadtree for 2D collision checking. The quadtree acts like an object pool in that it
      * will create subnodes as objects are needed but it won't clean up the subnodes when it
      * collapses to avoid garbage collection.
@@ -1193,7 +1204,7 @@ this.kontra = {
      * ----+----
      *  2  |  3
      *     |
-     */
+     *!/
     kontra.quadtree = function(properties) {
         var quadtree = Object.create(kontra.quadtree.prototype);
         quadtree._init(properties);
@@ -1202,7 +1213,7 @@ this.kontra = {
     };
 
     kontra.quadtree.prototype = {
-        /**
+        /!**
          * Initialize properties on the quadtree.
          * @memberof kontra.quadtree
          * @private
@@ -1213,7 +1224,7 @@ this.kontra = {
          * @param {object} [properties.bounds] - The 2D space this node occupies.
          * @param {object} [properties.parent] - Private. The node that contains this node.
          * @param {number} [properties.depth=0] - Private. Current node depth.
-         */
+         *!/
         _init: function init(properties) {
             properties = properties || {};
 
@@ -1237,10 +1248,10 @@ this.kontra = {
             this.subnodes = [];
         },
 
-        /**
+        /!**
          * Clear the quadtree
          * @memberof kontra.quadtree
-         */
+         *!/
         clear: function clear() {
             if (this._branch) {
                 for (var i = 0; i < 4; i++) {
@@ -1252,7 +1263,7 @@ this.kontra = {
             this.objects.length = 0;
         },
 
-        /**
+        /!**
          * Find the leaf node the object belongs to and get all objects that are part of
          * that node.
          * @memberof kontra.quadtree
@@ -1260,7 +1271,7 @@ this.kontra = {
          * @param {object} object - Object to use for finding the leaf node.
          *
          * @returns {object[]} A list of objects in the same leaf node as the object.
-         */
+         *!/
         get: function get(object) {
             var objects = [];
             var indices, i;
@@ -1279,7 +1290,7 @@ this.kontra = {
             return this.objects;
         },
 
-        /**
+        /!**
          * Add an object to the quadtree. Once the number of objects in the node exceeds
          * the maximum number of objects allowed, it will split and move all objects to their
          * corresponding subnodes.
@@ -1290,7 +1301,7 @@ this.kontra = {
          * @example
          * kontra.quadtree().add({id:1}, {id:2}, {id:3});
          * kontra.quadtree().add([{id:1}, {id:2}], {id:3});
-         */
+         *!/
         add: function add() {
             var i, j, object, obj, indices, index;
 
@@ -1328,13 +1339,13 @@ this.kontra = {
             }
         },
 
-        /**
+        /!**
          * Add an object to a subnode.
          * @memberof kontra.quadtree
          * @private
          *
          * @param {object} object - Object to add into a subnode
-         */
+         *!/
         _add2Sub: function addToSubnode(object) {
             var indices = this._getIndex(object);
             var i;
@@ -1345,7 +1356,7 @@ this.kontra = {
             }
         },
 
-        /**
+        /!**
          * Determine which subnodes the object intersects with.
          * @memberof kontra.quadtree
          * @private
@@ -1353,7 +1364,7 @@ this.kontra = {
          * @param {object} object - Object to check.
          *
          * @returns {number[]} List of all subnodes object intersects.
-         */
+         *!/
         _getIndex: function getIndex(object) {
             var indices = [];
 
@@ -1389,11 +1400,11 @@ this.kontra = {
             return indices;
         },
 
-        /**
+        /!**
          * Split the node into four subnodes.
          * @memberof kontra.quadtree
          * @private
-         */
+         *!/
         _split: function split() {
             this._branch = true;
 
@@ -1421,11 +1432,11 @@ this.kontra = {
             }
         },
 
-        /**
+        /!**
          * Draw the quadtree. Useful for visual debugging.
          * @memberof kontra.quadtree
-         */
-        /* @if VISUAL_DEBUG **
+         *!/
+        /!* @if VISUAL_DEBUG **
         render: function() {
           // don't draw empty leaf nodes, always draw branch nodes and the first node
           if (this.objects.length || this._depth === 0 ||
@@ -1441,9 +1452,11 @@ this.kontra = {
             }
           }
         }
-        /* @endif */
+        /!* @endif *!/
     };
 })(kontra);
+*/
+
 (function(kontra, Math, Infinity, undefined) {
 
     /**
@@ -1895,6 +1908,8 @@ this.kontra = {
         }
     };
 })(kontra, Math, Infinity);
+
+//Animations
 (function(kontra, undefined) {
     /**
      * Single animation from a sprite sheet.
@@ -2180,9 +2195,10 @@ this.kontra = {
         }
     };
 })(kontra);
+
 /**
  * Object for using localStorage.
- */
+ *
 kontra.store = {
 
     /**
@@ -2191,7 +2207,7 @@ kontra.store = {
      *
      * @param {string} key - Name to store the item as.
      * @param {*} value - Item to store.
-     */
+     *
     set: function setStoreItem(key, value) {
         if (value === undefined) {
             localStorage.removeItem(key);
@@ -2208,7 +2224,7 @@ kontra.store = {
      * @param {string} key - Name of the item.
      *
      * @returns {*}
-     */
+     *
     get: function getStoreItem(key) {
         var value = localStorage.getItem(key);
 
@@ -2219,7 +2235,7 @@ kontra.store = {
 
         return value;
     }
-};
+};*/
 (function(kontra, Math, Array) {
     // save Math.min and Math.max to variable and use that instead
 

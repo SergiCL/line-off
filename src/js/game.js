@@ -12,7 +12,7 @@ var spriteSheet = kontra.spriteSheet({
     animations: {
         shine: {
             frames: [1,2,3],
-            frameRate: 6,
+            frameRate: 4,
             loop: true
         },
         off: {
@@ -35,9 +35,37 @@ function Light (x,y) {
         },
 
         render: function () {
-            this.animations.shine.render({x:x, y:y});
+            this.animations.shine.render({x:this.x, y:this.y});
         }
     });
+
+    Light.prototype.turnOff = function() {
+       this.sprite =  kontra.sprite({
+           animations: spriteSheet.animations,
+
+           update: function () {
+               this.animations.off.update();
+           },
+
+           render: function () {
+               this.animations.off.render({x:this.x, y:this.y});
+           }
+       });
+    };
+
+    Light.prototype.turnOn = function() {
+        this.sprite =  kontra.sprite({
+            animations: spriteSheet.animations,
+
+            update: function () {
+                this.animations.shine.update();
+            },
+
+            render: function () {
+                this.animations.shine.render({x:this.x, y:this.y});
+            }
+        });
+    }
 }
 
 function Line (first_x, y, numOfPoints, isHorizontal) {
@@ -51,6 +79,18 @@ function Line (first_x, y, numOfPoints, isHorizontal) {
 
     for (i=0; i < numOfPoints; i++) {
         this.lightList.push(new Light(this.first_x + this.lightWidth*i, 20));
+    }
+
+    Line.prototype.turnOff = function() {
+        line1.lightList.forEach(function(light) {
+            light.turnOff();
+        });
+    }
+
+    Line.prototype.turnOn = function() {
+        line1.lightList.forEach(function(light) {
+            light.turnOn();
+        });
     }
 }
 
@@ -80,7 +120,7 @@ var player = kontra.sprite({
         }
 
         if(this.collidesWith(enemy)) {
-            alert("You lose!");
+            line1.turnOff();
             resetGame();
         }
     }
