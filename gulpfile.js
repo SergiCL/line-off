@@ -36,7 +36,8 @@ var gulp          = require('gulp'),
             'src/css/*.css',
         ],
         js: [
-            'src/js/*.js'
+            'src/js/*.js',
+            'src/js/game.js'
         ],
         kontra: [
             'src/js/kontra/kontra.js'
