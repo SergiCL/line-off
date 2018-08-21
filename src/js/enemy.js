@@ -8,10 +8,16 @@ function Enemy(player){
 
         update: function() {
             if(this.collidesWith(player.sprite)) {
-                alert("You lose!");
                 resetGame();
-            }
 
+                if (line1.isOn) {
+                    alert("Turn Off!");
+                    line1.turnOff();
+                } else {
+                    alert("Turn On!");
+                    line1.turnOn();
+                }
+            }
         },
 
         render: function() {
@@ -22,7 +28,6 @@ function Enemy(player){
         }
     });
 }
-
 
 function resetGame() {
     player.sprite.x = 140;
