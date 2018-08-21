@@ -26,3 +26,4 @@ function Player(canvas){
     });
 }
 
+

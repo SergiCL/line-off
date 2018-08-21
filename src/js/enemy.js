@@ -6,6 +6,16 @@ function Enemy(player){
         color: 'orange',
         radius: 4,
 
+        update: function() {
+            if(this.collidesWith(player.sprite)) {
+                alert("You lose!");
+                resetGame();
+            }
+
+
+
+        },
+
         render: function() {
             this.context.fillStyle = this.color;
             this.context.beginPath();
@@ -13,4 +23,10 @@ function Enemy(player){
             this.context.fill();
         }
     });
+}
+
+
+function resetGame() {
+    player.sprite.x = 140;
+    player.sprite.y = 90;
 }

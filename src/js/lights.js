@@ -73,7 +73,7 @@ function Line (x, y, numOfPoints) {
     this.lightWidth = 20;
 
     for (i=0; i < numOfPoints; i++) {
-        this.lightList.push(new Light(this.x + this.lightWidth*i, 20));
+        this.lightList.push(new Light(this.x + this.lightWidth*i, this.y));
     }
 
     Line.prototype.turnOff = function() {

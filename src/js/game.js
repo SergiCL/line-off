@@ -2,14 +2,12 @@ kontra.init();
 
 var canvas = document.getElementById("canvas");
 
-var line1 = new Line(20,10,13);
+var line1 = new Line(20,20,13);
 var player = new Player(canvas);
 var enemy = new Enemy(player);
 
-function resetGame() {
-    player.x = 140;
-    player.y = 90;
-}
+
+
 
 var loop  = kontra.gameLoop({
     update: function () {
