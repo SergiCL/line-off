@@ -12,8 +12,6 @@ function Enemy(player){
                 resetGame();
             }
 
-
-
         },
 
         render: function() {
