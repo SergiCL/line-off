@@ -2,7 +2,7 @@ kontra.init();
 
 var canvas = document.getElementById("canvas");
 
-var line1 = new Line(20,20,13);
+var line1 = new Line(20,20,17);
 var player = new Player(canvas);
 var enemy = new Enemy(player);
 

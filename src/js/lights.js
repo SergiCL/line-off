@@ -3,12 +3,12 @@ img.src = './assets/imgs/lights.png';
 
 var spriteSheet = kontra.spriteSheet({
     image: img,
-    frameWidth: 22.5,
-    frameHeight: 14,
+    frameWidth: 12,
+    frameHeight: 12,
     animations: {
         shine: {
             frames: [1,2,3],
-            frameRate: 4,
+            frameRate: 2.5,
             loop: true
         },
         off: {
@@ -70,7 +70,7 @@ function Line (x, y, numOfPoints) {
     //this.isHorizontal = isHorizontal;
 
     this.lightList = new Array();
-    this.lightWidth = 20;
+    this.lightWidth = 15;
 
     for (i=0; i < numOfPoints; i++) {
         this.lightList.push(new Light(this.x + this.lightWidth*i, this.y));
