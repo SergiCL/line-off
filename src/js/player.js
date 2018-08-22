@@ -1,10 +1,10 @@
 function Player(canvas){
     this.sprite = kontra.sprite({
-        x: 140,
-        y: 90,
-        color: 'cyan',
-        width: 20,
-        height: 20,
+        x: 0,
+        y: 0,
+        color: 'red',
+        width: 12,
+        height: 12,
         context: canvas.context,
 
         update: function() {

@@ -3,12 +3,17 @@ img.src = './assets/imgs/lights.png';
 
 var spriteSheet = kontra.spriteSheet({
     image: img,
-    frameWidth: 12,
+    frameWidth:  12,
     frameHeight: 12,
     animations: {
         shine: {
             frames: [1,2,3],
             frameRate: 2.5,
+            loop: true
+        },
+        flicker: {
+            frames: [0,1],
+            frameRate: 2,
             loop: true
         },
         off: {
@@ -35,6 +40,7 @@ function Light (x,y) {
     });
 
     Light.prototype.turnOff = function(x,y) {
+        //this.sprite.playAnimation('off'); //¿Se puede sustituir? A lo mejor si se plantea el update y render de otra forma
         this.sprite =  kontra.sprite({
             animations: spriteSheet.animations,
 
@@ -70,7 +76,7 @@ function Line (x, y, numOfPoints) {
     //this.isHorizontal = isHorizontal;
 
     this.lightList = new Array();
-    this.lightWidth = 15;
+
 
     for (i=0; i < numOfPoints; i++) {
         this.lightList.push(new Light(this.x + this.lightWidth*i, this.y));
