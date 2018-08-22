@@ -1,19 +1,14 @@
-var img = new Image();
-img.src = './assets/imgs/lights.png';
+var lightsImg = new Image();
+lightsImg.src = './assets/imgs/lights.png';
 
 var spriteSheet = kontra.spriteSheet({
-    image: img,
+    image: lightsImg,
     frameWidth:  12,
     frameHeight: 12,
     animations: {
         shine: {
             frames: [1,2,3],
             frameRate: 2.5,
-            loop: true
-        },
-        flicker: {
-            frames: [0,1],
-            frameRate: 2,
             loop: true
         },
         off: {
@@ -69,6 +64,7 @@ function Light (x,y) {
     }
 }
 
+/*
 function Line (x, y, numOfPoints) {
     this.x = x;
     this.y = y;
@@ -98,3 +94,4 @@ function Line (x, y, numOfPoints) {
         this.isOn = true;
     }
 }
+*/

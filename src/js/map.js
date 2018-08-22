@@ -2,8 +2,6 @@ var lightSize = 15;
 
 function LightMap (numRows, numCols) {
     this.mapOfLights = [];
-    //this.mapTemplate = [];
-
     this.mapTemplate = [
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  // 1
         [1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1],  // 2
@@ -24,13 +22,23 @@ function LightMap (numRows, numCols) {
     for (row = 0; row < numRows; row++){
         var columns = [];
         for (col = 0; col < numCols; col++){
-            if(this.mapTemplate[row][col] == 1)
+            if(this.mapTemplate[row][col] === 1)
                 columns[col] = new Light(col*lightSize, row*lightSize);
             else
                 columns[col] = undefined
-            console.log("Row: "+row+" Col: "+col)
         }
         this.mapOfLights[row] = columns;
     }
+
 }
 
+LightMap.prototype.turnOff = function(x,y,isHorizontal) {
+    while (this.mapOfLights[x][y] != null) {
+        var light = this.mapOfLights[x][y];
+        light.turnOff(light.x, light.y);
+        if(isHorizontal)
+            y+=1;
+        else
+            x+=1;
+    }
+};

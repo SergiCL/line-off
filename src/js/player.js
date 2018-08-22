@@ -1,10 +1,11 @@
-function Player(canvas){
+var playerImg = new Image();
+playerImg.src = './assets/imgs/player.png';
+
+function Player(canvas, x, y){
     this.sprite = kontra.sprite({
         x: 0,
         y: 0,
-        color: 'red',
-        width: 12,
-        height: 12,
+        image: playerImg,
         context: canvas.context,
 
         update: function() {
@@ -22,7 +23,8 @@ function Player(canvas){
             else if (this.y < (canvas.height - this.height) && kontra.keys.pressed('down')) {
                 this.y += 1
             }
-        }
+
+        },
     });
 }
 

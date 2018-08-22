@@ -1,12 +1,27 @@
+var enemyImg = new Image();
+enemyImg.src = './assets/imgs/enemy.png';
+
+var enemySpriteSheet = kontra.spriteSheet({
+    image: enemyImg,
+    frameWidth:  11,
+    frameHeight: 12,
+    animations: {
+        move: {
+            frames: [1, 2],
+            frameRate: 6,
+        }
+    }
+});
+
 function Enemy(player){
     this.player = player;
     this.sprite = kontra.sprite({
         x: 150,
         y: 60,
-        color: 'orange',
-        radius: 4,
+        animations: enemySpriteSheet.animations,
 
         update: function() {
+            /*
             if(this.collidesWith(player.sprite)) {
                 resetGame();
 
@@ -18,13 +33,12 @@ function Enemy(player){
                     line1.turnOn();
                 }
             }
+            */
+            this.animations.move.update();
         },
 
-        render: function() {
-            this.context.fillStyle = this.color;
-            this.context.beginPath();
-            this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-            this.context.fill();
+        render: function(x,y) {
+            this.animations.move.render({x:x, y:y});
         }
     });
 }
