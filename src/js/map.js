@@ -1,6 +1,8 @@
 var lightSize = 15;
 
 function LightMap (numRows, numCols) {
+    this.numRows = numRows;
+    this.numCols = numCols;
     this.mapOfLights = [];
     this.mapTemplate = [
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],  // 1
@@ -41,4 +43,18 @@ LightMap.prototype.turnOff = function(x,y,isHorizontal) {
         else
             x+=1;
     }
+};
+
+LightMap.prototype.getCurrentTile = function(x,y) {
+    return {
+        x: Math.floor(x / lightSize),
+        y: Math.floor(y / lightSize)
+    };
+
+};
+
+LightMap.prototype.getNextTile = function(x,y,direction) {
+
+
+
 };

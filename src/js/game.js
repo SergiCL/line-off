@@ -3,12 +3,12 @@ kontra.init();
 var canvas  = document.getElementById("canvas");
 
 canvas.width  = 22*15;
-canvas.height = 12*15;
+canvas.height = 11.8*15;
 
 //var line1 = new Line(0,0,22);
-var player = new Player(canvas, 0, 0);
-var enemy = new Enemy(player);
 var map = new LightMap(12, 22);
+var player = new Player(map, 0, 0);
+var enemy = new Enemy(player);
 
 var loop  = kontra.gameLoop({
     update: function () {
