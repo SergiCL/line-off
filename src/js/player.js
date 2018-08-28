@@ -38,7 +38,6 @@ function Player(map, x, y){
                 }
             }
             else {
-                var nextLight;
                 if (this.actualDirection === 0) {   //Still
                     this.actualDirection = this.nextDirection;
                 }
@@ -52,10 +51,10 @@ function Player(map, x, y){
                         this.nextDirection = this.actualDirection;
                 }
 
-                nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
+                var nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
 
 
-                if(this.nextDirection === this.actualDirection && nextLight === undefined && map.isCentered(this.x, this.y)) {
+                if(this.nextDirection === this.actualDirection && (nextLight === undefined || !nextLight.isOn) && map.isCentered(this.x, this.y)) {
                     this.actualDirection = 0;
                     this.nextDirection   = 0;
                     console.log("%c RECTO: Siguiente no existe y para", "background: black; color:pink");

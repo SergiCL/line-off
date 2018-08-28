@@ -22,6 +22,7 @@ var spriteSheet = kontra.spriteSheet({
 function Light (x,y) {
     this.x = x;
     this.y = y;
+    this.isOn = true;
     this.sprite = kontra.sprite({
         animations: spriteSheet.animations,
 
@@ -36,6 +37,7 @@ function Light (x,y) {
 
     Light.prototype.turnOff = function(x,y) {
         //this.sprite.playAnimation('off'); //¿Se puede sustituir? A lo mejor si se plantea el update y render de otra forma
+        this.isOn   = false;
         this.sprite =  kontra.sprite({
             animations: spriteSheet.animations,
 
@@ -50,6 +52,7 @@ function Light (x,y) {
     };
 
     Light.prototype.turnOn = function(x,y) {
+        this.isOn   = true;
         this.sprite =  kontra.sprite({
             animations: spriteSheet.animations,
 
