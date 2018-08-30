@@ -40,12 +40,12 @@ function Player(map, x, y){
                 var nextLight;
                 if (this.actualDirection === 0) {   //Still
                     nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-                    if(nextLight !== undefined)
+                    if(nextLight !== undefined && nextLight.isOn)
                         this.actualDirection = this.nextDirection;
                 }
                 else if(this.nextDirection === this.actualDirection) {   //Straight
                     nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-                    if(nextLight === undefined && isCentered(this.x, this.y)){
+                    if((nextLight === undefined || !nextLight.isOn) && isCentered(this.x, this.y)){
                         this.actualDirection = 0;
                     } else {
                         this.nextDirection = this.actualDirection; //Continue
@@ -54,9 +54,9 @@ function Player(map, x, y){
                 else {          //Changing direction
                     if(isCentered(this.x, this.y)) {
                         nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-                        if (nextLight === undefined) {
+                        if (nextLight === undefined || !nextLight.isOn) {
                             var nextLightIfStraight = map.getLight(map.getNextTile(this.x,this.y,this.actualDirection));
-                            if (nextLightIfStraight === undefined) {
+                            if (nextLightIfStraight === undefined || !nextLightIfStraight.isOn) {
                                 this.actualDirection = 0;
                             }
                         }
