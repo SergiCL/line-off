@@ -27,42 +27,48 @@ function Player(map, x, y){
                 this.nextDirection = directions.DOWN;
             }
 
-
             //Calculos
             var nextTile = map.getNextTile(this.x, this.y, this.nextDirection);
             if(!map.isTileInsideMap(nextTile)) {
-                if(this.x === 0 && this.y === 0 || this.x === 21 && this.y === 0 || this.x === 21 && this.y === 11 || this.x === 0 && this.y === 11 || this.nextDirection === this.actualDirection && map.isCentered(this.x, this.y)){
+                if((this.x === 0 && this.y === 0 || this.x === 21 && this.y === 0 || this.x === 21 && this.y === 11 || this.x === 0 && this.y === 11 || this.nextDirection === this.actualDirection) && isCentered(this.x, this.y)){
                     console.log("%c Siguiente está fuera del mapa");
                     this.actualDirection = 0;
                     this.nextDirection = 0;
                 }
             }
             else {
+                var nextLight;
                 if (this.actualDirection === 0) {   //Still
-                    this.actualDirection = this.nextDirection;
+                    nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
+                    if(nextLight !== undefined)
+                        this.actualDirection = this.nextDirection;
                 }
                 else if(this.nextDirection === this.actualDirection) {   //Straight
-                    this.nextDirection = this.actualDirection;           //Continue
+                    nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
+                    if(nextLight === undefined && isCentered(this.x, this.y)){
+                        this.actualDirection = 0;
+                    } else {
+                        this.nextDirection = this.actualDirection; //Continue
+                    }
                 }
-                else {  //Spinning
-                    if( map.isCentered(this.x, this.y) )
-                        this.actualDirection = this.nextDirection;
-                    else
-                        this.nextDirection = this.actualDirection;
-                }
-
-                var nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-
-
-                if(this.nextDirection === this.actualDirection && (nextLight === undefined || !nextLight.isOn) && map.isCentered(this.x, this.y)) {
-                    this.actualDirection = 0;
-                    this.nextDirection   = 0;
-                    console.log("%c RECTO: Siguiente no existe y para", "background: black; color:pink");
+                else {          //Changing direction
+                    if(isCentered(this.x, this.y)) {
+                        nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
+                        if (nextLight === undefined) {
+                            var nextLightIfStraight = map.getLight(map.getNextTile(this.x,this.y,this.actualDirection));
+                            if (nextLightIfStraight === undefined) {
+                                this.actualDirection = 0;
+                            }
+                        }
+                        else
+                            this.actualDirection = this.nextDirection;
+                    }
                 }
             }
 
             this.nextDirection = this.actualDirection;
             console.log(nextTile);
+            console.log("LIGHT: "+nextLight);
 
 
             //Update sprite position
@@ -80,8 +86,12 @@ function Player(map, x, y){
                     this.y += 1;
                     break;
             }
+
         },
     });
 }
 
-
+isCentered = function(x, y) {
+    var currentTile = map.getCurrentTile(x,y);
+    return (x === currentTile.x*lightSize && y === currentTile.y*lightSize);
+};

@@ -60,11 +60,6 @@ LightMap.prototype.getCurrentTile = function(x,y) {
     };
 };
 
-LightMap.prototype.isCentered = function(x,y) {
-    var currentTile = this.getCurrentTile(x,y);
-    return (x === currentTile.x*lightSize && y === currentTile.y*lightSize);
-};
-
 LightMap.prototype.getNextTile= function(x,y,direction) {
     var currentTile = this.getCurrentTile(x,y);
     var nextTile = {x: currentTile.x, y: currentTile.y};
