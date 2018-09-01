@@ -31,9 +31,7 @@ function Player(map, x, y){
             var nextTile = map.getNextTile(this.x, this.y, this.nextDirection);
             if(!map.isTileInsideMap(nextTile)) {
                 if((this.x === 0 && this.y === 0 || this.x === 21 && this.y === 0 || this.x === 21 && this.y === 11 || this.x === 0 && this.y === 11 || this.nextDirection === this.actualDirection) && isCentered(this.x, this.y)){
-                    console.log("%c Siguiente está fuera del mapa");
                     this.actualDirection = 0;
-                    this.nextDirection = 0;
                 }
             }
             else {
@@ -67,8 +65,8 @@ function Player(map, x, y){
             }
 
             this.nextDirection = this.actualDirection;
-            console.log(nextTile);
-            console.log("LIGHT: "+nextLight);
+            //console.log(nextTile);
+            //console.log("LIGHT: "+nextLight);
 
 
             //Update sprite position

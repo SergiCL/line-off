@@ -36,7 +36,6 @@ function Light (x,y) {
     });
 
     Light.prototype.turnOff = function(x,y) {
-        //this.sprite.playAnimation('off'); //¿Se puede sustituir? A lo mejor si se plantea el update y render de otra forma
         this.isOn   = false;
         this.sprite =  kontra.sprite({
             animations: spriteSheet.animations,
@@ -66,35 +65,3 @@ function Light (x,y) {
         });
     }
 }
-
-/*
-function Line (x, y, numOfPoints) {
-    this.x = x;
-    this.y = y;
-    this.isOn = true;
-    //this.isHorizontal = isHorizontal;
-
-    this.lightList = new Array();
-
-
-    for (i=0; i < numOfPoints; i++) {
-        this.lightList.push(new Light(this.x + this.lightWidth*i, this.y));
-    }
-
-    Line.prototype.turnOff = function() {
-        this.lightList.forEach(function(light) {
-            light.turnOff(light.x, light.y);
-            console.log("Turned Off");
-        });
-        this.isOn = false;
-    }
-
-    Line.prototype.turnOn = function() {
-        this.lightList.forEach(function(light) {
-            light.turnOn(light.x, light.y);
-            console.log("Turned On");
-        });
-        this.isOn = true;
-    }
-}
-*/

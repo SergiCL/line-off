@@ -9,13 +9,13 @@ var map    = new LightMap(12, 22);
 var player = new Player(map, 0, 0);
 var enemy  = new Enemy(player);
 
+kontra.keys.bind('enter', function() {
+    map.turnOffRandomCorner();
+});
+
 var loop  = kontra.gameLoop({
     update: function () {
 
-        if (kontra.keys.pressed('enter')){
-            map.turnOff(0,0,true);
-            console.log(map.mapOfLights[0][0]);
-        }
 
         player.sprite.update();
         enemy.sprite.update();
