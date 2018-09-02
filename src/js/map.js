@@ -28,22 +28,20 @@ Array.prototype.pushIfNotExist = function(element, comparer) {
 var lightSize = 15;
 
 function LightMap (numRows, numCols) {
-    //this.numRows = numRows;
-    //this.numCols = numCols;
     this.mapOfLights = [];
     this.mapTemplate = [
-        [1,1,1,1,1,1,1,1,1,1,1  ,1,1,1,1,1,1,1,1,1,1,1],  // 1
-        [1,0,0,0,1,0,0,0,0,0,0  ,0,0,1,0,1,0,0,0,0,0,1],  // 2
-        [1,0,1,1,1,1,1,1,1,1,1  ,1,1,1,0,1,1,1,1,1,0,1],  // 3
-        [1,0,1,0,0,0,1,0,1,0,0  ,0,0,1,0,1,0,0,0,1,0,1],  // 4
-        [1,1,1,1,1,1,1,1,1,1,0  ,0,1,1,1,1,1,1,1,1,1,1],  // 5
-        [1,0,0,0,1,0,0,0,0,1,1  ,1,1,0,0,0,0,1,0,0,0,1],  // 6
-        [1,0,0,0,1,1,1,1,0,1,0  ,0,1,1,1,1,1,1,1,1,1,1],  // 7
-        [1,1,1,1,1,0,0,1,1,1,0  ,0,1,0,1,0,1,0,0,0,0,1],  // 8
-        [1,0,1,0,0,0,0,1,0,1,0  ,0,1,0,1,0,1,0,0,0,0,1],  // 9
-        [1,0,1,1,1,1,1,1,1,1,0  ,0,1,0,1,1,1,1,1,1,1,1],  //10
-        [1,0,1,0,0,1,0,0,0,1,1  ,1,1,0,1,0,1,0,0,1,0,1],  //11
-        [1,1,1,1,1,1,1,1,1,1,0  ,0,1,1,1,1,1,1,1,1,1,1],  //12
+        [1,1,1,1,1,1,1,1,1,1,1 ,1,1,1,1,1,1,1,1,1,1,1],  // 1
+        [1,0,0,0,1,0,0,0,0,0,0 ,0,0,1,0,1,0,0,0,0,0,1],  // 2
+        [1,0,1,1,1,1,1,1,1,1,1 ,1,1,1,0,1,1,1,1,1,0,1],  // 3
+        [1,0,1,0,0,0,1,0,1,0,0 ,0,0,1,0,1,0,0,0,1,0,1],  // 4
+        [1,1,1,1,1,1,1,1,1,1,0 ,0,1,1,1,1,1,1,1,1,1,1],  // 5
+        [1,0,0,0,1,0,0,0,0,1,1 ,1,1,0,0,0,0,1,0,0,0,1],  // 6
+        [1,0,0,0,1,1,1,1,0,1,0 ,0,1,1,1,1,1,1,1,1,1,1],  // 7
+        [1,1,1,1,1,0,0,1,1,1,0 ,0,1,0,1,0,1,0,0,0,0,1],  // 8
+        [1,0,1,0,0,0,0,1,0,1,0 ,0,1,0,1,0,1,0,0,0,0,1],  // 9
+        [1,0,1,1,1,1,1,1,1,1,0 ,0,1,0,1,1,1,1,1,1,1,1],  //10
+        [1,0,1,0,0,1,0,0,0,1,1 ,1,1,0,1,0,1,0,0,1,0,1],  //11
+        [1,1,1,1,1,1,1,1,1,1,0 ,0,1,1,1,1,1,1,1,1,1,1],  //12
         // 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 2 2 2
         // 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2
     ];
@@ -55,11 +53,14 @@ function LightMap (numRows, numCols) {
         {x:21, y:11}
     ];
 
+    this.offCorners = [];
+
     for (row = 0; row < numRows; row++){
         var columns = [];
         for (col = 0; col < numCols; col++){
-            if(this.mapTemplate[row][col] === 1)
-                columns[col] = new Light(col*lightSize, row*lightSize);
+            if(this.mapTemplate[row][col] === 1) {
+                columns[col] = new Light(col * lightSize, row * lightSize);
+            }
             else
                 columns[col] = undefined
         }
@@ -69,53 +70,51 @@ function LightMap (numRows, numCols) {
 
 LightMap.prototype.turnOff = function() {
     var corner = this.corners.shift();
-
     console.log("CORNERS: "+this.corners.length);
     console.log("   Acual corner: {"+corner.x+","+corner.y+"}");
-
-    /*/Turn off corner if is not a corner never more:
-    if(!this.isACrossroad(light.x, light.y)) {
-        console.log("TURN OFF: Crossroad")
-        light.turnOff(light.x, light.y);
-        this.corners.remove(cornerIdx);
-        //Delete corner
-    }
-    */
 
     //Turn off lights
     for(var d=1; d<=4; d++ ) {
         var light = this.getLight(corner);
-        light.turnOff(light.x, light.y);
-        console.log("DIRECTION: "+d+". 1st LIGHT: [ "+light.x+","+light.y+" ]");
+        light.turnOff();
 
         light = this.getLight(this.getNextTile(light.x, light.y, d));
-        while(light !== undefined && !this.isACrossroad(light.x, light.y)) {
+        while(light !== undefined && light.isOn && !this.isACrossroad(light.x, light.y)) {
             light.turnOff(light.x, light.y);
             light = this.getLight(this.getNextTile(light.x, light.y, d));
         }
         if(light !== undefined && light.isOn) {
-            console.log("   >>> IS A CROSSROAD: [ "+light.x+","+light.y+" ]");
             this.corners.pushIfNotExist({x: Math.floor(light.x / lightSize) , y: Math.floor(light.y / lightSize)} ,function(c) {
                 return c.x === Math.floor(light.x / lightSize) && c.y === Math.floor(light.y / lightSize);
             });
         }
-
     }
+    this.offCorners.unshift(corner);
+};
 
+LightMap.prototype.turnOn = function() {
+    var corner = this.offCorners.shift();
+    console.log("CORNERS: "+this.corners.length);
+    console.log("   Acual corner: {"+corner.x+","+corner.y+"}");
 
-    //Apagar linea desde CORNER hsata el siguiente cruce (en una sola dirección)
-    //Add siguiente cruce a corners
-    //Si no quedan direcciones también apaga el corner (Es decir, si ya no es cruce, solo es linea)
+    //Turn off lights
+    for(var d=1; d<=4; d++ ) {
+        var light = this.getLight(corner);
+        light.turnOn();
+
+        light = this.getLight(this.getNextTile(light.x, light.y, d));
+        while(light !== undefined && !light.isOn && !this.isACrossroad(light.x, light.y)) {
+            light.turnOn(light.x, light.y);
+            light = this.getLight(this.getNextTile(light.x, light.y, d));
+        }
+    }
+    this.corners.unshift(corner);
 };
 
 LightMap.prototype.turnOffRandomCorner = function() {
     if(this.corners.length > 0) {
-        console.log("Turned off a random corner")
         this.turnOff();
-        console.log("END: Turned off a random corner")
     }
-    else
-        console.log("/!\ No quedan corners")
 };
 
 LightMap.prototype.isACrossroad = function(x,y) {
@@ -123,7 +122,7 @@ LightMap.prototype.isACrossroad = function(x,y) {
         return false;
     var roads = 0;
 
-    for(var d=1; d<=4; d++ ){
+    for(var d=1; d<=4; d++){
         if(this.tileExists(this.getNextTile(x,y,d)))
             roads++;
     }
@@ -133,9 +132,8 @@ LightMap.prototype.isACrossroad = function(x,y) {
 LightMap.prototype.tileExists= function(tile) {
     if(!this.isTileInsideMap(tile))
         return false;
-    if(this.getLight(tile) === undefined)
-        return false;
-    return true;
+    return this.getLight(tile) !== undefined;
+
 };
 
 LightMap.prototype.getCurrentTile = function(x,y) {

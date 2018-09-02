@@ -8,13 +8,13 @@ var spriteSheet = kontra.spriteSheet({
     animations: {
         shine: {
             frames: [1,2,3],
-            frameRate: 2.5,
-            loop: true
+            frameRate: 2,
+            loop: true,
         },
-        off: {
-            frames: [0],
-            frameRate: 0,
-            loop: false,
+        blink: {
+            frames: [1,2,4,1,2,4,1,2,4,1,2,4,1,2,4,1,2,4,1,2,4,1,4],
+            frameRate: 3.5,
+            loop: false
         }
     }
 });
@@ -24,44 +24,24 @@ function Light (x,y) {
     this.y = y;
     this.isOn = true;
     this.sprite = kontra.sprite({
-        animations: spriteSheet.animations,
-
-        update: function () {
-            this.animations.shine.update();
-        },
-
-        render: function () {
-            this.animations.shine.render({x:x, y:y});
-        }
+        x: this.x,
+        y: this.y,
+        animations: spriteSheet.animations
     });
 
-    Light.prototype.turnOff = function(x,y) {
-        this.isOn   = false;
-        this.sprite =  kontra.sprite({
-            animations: spriteSheet.animations,
+    this.sprite.playAnimation('shine');
 
-            update: function () {
-                this.animations.off.update();
-            },
-
-            render: function () {
-                this.animations.off.render({x:x, y:y});
-            }
-        });
+    Light.prototype.turnOff = function() {
+        this.sprite.playAnimation('blink');
+        var self = this;
+        turningOffTimeout = setTimeout(function () {console.log("Luz apagada"); self.isOn = false;}, 6500);
     };
 
-    Light.prototype.turnOn = function(x,y) {
+    Light.prototype.turnOn = function() {
+        this.sprite.playAnimation('shine');
+        clearTimeout(turningOffTimeout);
         this.isOn   = true;
-        this.sprite =  kontra.sprite({
-            animations: spriteSheet.animations,
+    };
 
-            update: function () {
-                this.animations.shine.update();
-            },
 
-            render: function () {
-                this.animations.shine.render({x:x, y:y});
-            }
-        });
-    }
 }

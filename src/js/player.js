@@ -10,6 +10,12 @@ function Player(map, x, y){
         image:   playerImg,
 
         update: function() {
+
+            if(!map.getLight(map.getCurrentTile(this.x, this.y)).isOn) {
+                alert("Darkness surrounds you. Game Over!");
+                window.location.reload();
+            }
+
             //Key capture
             if (kontra.keys.pressed('left')) {
                 this.nextDirection = directions.LEFT;
@@ -65,9 +71,6 @@ function Player(map, x, y){
             }
 
             this.nextDirection = this.actualDirection;
-            //console.log(nextTile);
-            //console.log("LIGHT: "+nextLight);
-
 
             //Update sprite position
             switch(this.actualDirection) {
@@ -84,7 +87,6 @@ function Player(map, x, y){
                     this.y += 1;
                     break;
             }
-
         },
     });
 }
