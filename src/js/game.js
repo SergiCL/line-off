@@ -9,12 +9,14 @@ canvas.height = 11.8*15+15;
 var map     = new LightMap(12, 22);
 var player  = new Player(map, 0, 0);
 var enemy   = new Enemy(player);
-var battery = new Battery(0,120);
+var battery = new Battery(map, 0,30);
 
-var score  = 0;
-var power  = 100;
+var score  = -50;
+var power  =  65;
 
-setInterval(function(){ map.turnOffRandomCorner(); }, 22000);
+var toTakeOffTimer = 0;
+var toTakeOffLimit = 0;
+
 setInterval(function(){ if(power > 0) power-=1; }, 900);
 var onLights = [];
 
@@ -40,6 +42,32 @@ var loop  = kontra.gameLoop({
             });
         });
 
+        battery.sprite.update();
+
+        if(toTakeOffLimit > 0 && toTakeOffTimer >= toTakeOffLimit) {
+            toTakeOffTimer = 0;
+            map.turnOffRandomCorner();
+        }
+
+        toTakeOffTimer += 1;
+
+        if(power <= 4) {
+            toTakeOffLimit = 4*60;
+        }
+        else if(power <= 10) {
+            toTakeOffLimit = 8*60;
+        }
+        else if (power <= 25) {
+            toTakeOffLimit = 10*60;
+        }
+        else if(power <= 50) {
+            toTakeOffLimit = 20*60;
+        }
+        else {
+            toTakeOffLimit = 0;
+            toTakeOffTimer = 0;
+        }
+
         if(battery.isActive) {
             if(player.sprite.collidesWith(battery.sprite)) {
                 if (power < 95)
@@ -50,11 +78,11 @@ var loop  = kontra.gameLoop({
                 battery.hide();
             }
         }
-        else {
-            var corner = onLights[Math.floor(Math.random()*onLights.length)];
-            battery.appear(corner.x, corner.y);
-        }
 
+        else {
+            var tile = onLights[Math.floor(Math.random()*onLights.length)];
+            battery.appear(tile.x, tile.y);
+        }
 
     },
     render: function () {
@@ -72,9 +100,7 @@ var loop  = kontra.gameLoop({
         ctx.fillStyle = "white";
         ctx.textAlign = "right";
         ctx.fillText("Score: "+score+"   Power: "+power+" %", canvas.width-6, canvas.height);
-
     }
 });
-
 
 loop.start();

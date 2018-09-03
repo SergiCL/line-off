@@ -14,14 +14,24 @@ var batterySpriteSheet = kontra.spriteSheet({
     }
 });
 
-function Battery(x, y){
+function Battery(map, x, y) {
     this.isActive = true;
+    this.x = x+3;
+    this.y = y;
+
+    var self = this;
     this.sprite = kontra.sprite({
         x: x+3,
         y: y,
-        animations: batterySpriteSheet.animations
-    });
+        animations: batterySpriteSheet.animations,
 
+        update: function() {
+            var currentLight = map.getLight(map.getCurrentTile(this.x, this.y));
+            if (!currentLight.isOn) {
+                self.hide();
+            }
+        }
+    });
     this.sprite.playAnimation('green');
 }
 
@@ -31,8 +41,11 @@ Battery.prototype.hide = function() {
 };
 
 Battery.prototype.appear = function(x,y) {
-    this.isActive = true;
-    this.sprite.x = x+3;
-    this.sprite.y = y;
-    this.sprite.playAnimation('green');
+    var currentLight = map.getLight(map.getCurrentTile(this.x, this.y));
+    if (currentLight.isOn) {
+        this.isActive = true;
+        this.sprite.x = x+3;
+        this.sprite.y = y;
+        this.sprite.playAnimation('green');
+    }
 };
