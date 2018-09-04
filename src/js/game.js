@@ -8,8 +8,8 @@ canvas.height = 11.8*15+15;
 
 var map     = new LightMap(12, 22);
 var player  = new Player(map, 0, 0);
-var enemy   = new Enemy(player);
-var battery = new Battery(map, 0,30);
+var enemy   = new Enemy(player, map, 0, 0);
+var battery = new Battery(map, 0, 0);
 
 var score  = -50;
 var power  =  65;
@@ -94,7 +94,7 @@ var loop  = kontra.gameLoop({
         });
         battery.sprite.render(battery.x, battery.y);
         player.sprite.render(player.sprite.x, player.sprite.y);
-        enemy.sprite.render(0, 164);
+        enemy.sprite.render(enemy.sprite.x, enemy.sprite.y);
 
         ctx.font = "9px Arial";
         ctx.fillStyle = "white";

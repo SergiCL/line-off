@@ -11,10 +11,7 @@ function Player(map, x, y){
 
         update: function() {
 
-            if(!map.getLight(map.getCurrentTile(this.x, this.y)).isOn) {
-                alert("Darkness surrounds you. Game Over!");
-                window.location.reload();
-            }
+            console.log("Actual: {"+this.x+","+this.y+"}");
 
             //Key capture
             if (kontra.keys.pressed('left')) {
@@ -33,15 +30,23 @@ function Player(map, x, y){
                 this.nextDirection = directions.DOWN;
             }
 
-            //Calculos
             var nextTile = map.getNextTile(this.x, this.y, this.nextDirection);
             if(!map.isTileInsideMap(nextTile)) {
-                if((this.x === 0 && this.y === 0 || this.x === 21 && this.y === 0 || this.x === 21 && this.y === 11 || this.x === 0 && this.y === 11 || this.nextDirection === this.actualDirection) && isCentered(this.x, this.y)){
+                //Evita que se pare a medio camino
+                if((this.nextDirection === this.actualDirection) && isCentered(this.x, this.y)
+                    || (this.x === 0 && this.y === 0 && isCentered(this.x, this.y)) || (this.x === 315 && this.y === 0)
+                    || (this.x === 315 && this.y === 165) || (this.x === 0 && this.y === 165))
+                {
                     this.actualDirection = 0;
                 }
             }
             else {
                 var nextLight;
+                if(!map.getLight(map.getCurrentTile(this.x, this.y)).isOn) {
+                    alert("Darkness surrounds you. Game Over!");
+                    window.location.reload();
+                }
+
                 if (this.actualDirection === 0) {   //Still
                     nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
                     if(nextLight !== undefined && nextLight.isOn)
