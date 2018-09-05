@@ -10,9 +10,6 @@ function Player(map, x, y){
         image:   playerImg,
 
         update: function() {
-
-            console.log("Actual: {"+this.x+","+this.y+"}");
-
             //Key capture
             if (kontra.keys.pressed('left')) {
                 this.nextDirection = directions.LEFT;

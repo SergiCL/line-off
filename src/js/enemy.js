@@ -26,13 +26,20 @@ function Enemy(player,map,x,y){
         update: function() {
             this.animations.move.update();
 
-            /*
-            if(Math.round(player.sprite.x/lightSize) === 0) {
-                console.log("  ")
+            if(getDistance(player.sprite.x,player.sprite.y,this.x, this.y) <= 10) {
+                alert("The monster killed you. Game Over!");
+                window.location.reload();
             }
-            */
 
             this.nextDirection = Math.floor(Math.random()*3)+1;
+            //TODO: If bateria.sprite.x > this.x--> Va a la derecha
+            //TODO: If bateria.sprite.x < this.x--> Va a la izquierda
+            //TODO: If bateria.sprite.y > this.y--> Va hacia abajo
+            //TODO: If bateria.sprite.y < this.y--> Va hacia arriba
+            //TODO: If distancia con bateria > 3 casillas --> Se acerca
+            //TODO: ELSE da vueltas a la zona.
+
+            //TODO: If está en la sombra: Desaparece.
 
             //Calculos
             var nextTile = map.getNextTile(this.x, this.y, this.nextDirection);
@@ -49,12 +56,12 @@ function Enemy(player,map,x,y){
                 var nextLight;
                 if (this.actualDirection === 0) {   //Still
                     nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-                    if(nextLight !== undefined && nextLight.isOn)
+                    if(nextLight !== undefined)
                         this.actualDirection = this.nextDirection;
                 }
                 else if(this.nextDirection === this.actualDirection) {   //Straight
                     nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-                    if((nextLight === undefined || !nextLight.isOn) && isCentered(this.x, this.y)){
+                    if((nextLight === undefined) && isCentered(this.x, this.y)){
                         this.actualDirection = 0;
                     } else {
                         this.nextDirection = this.actualDirection; //Continue
@@ -63,9 +70,9 @@ function Enemy(player,map,x,y){
                 else {          //Changing direction
                     if(isCentered(this.x, this.y)) {
                         nextLight = map.getLight(map.getNextTile(this.x,this.y,this.nextDirection));
-                        if (nextLight === undefined || !nextLight.isOn) {
+                        if (nextLight === undefined) {
                             var nextLightIfStraight = map.getLight(map.getNextTile(this.x,this.y,this.actualDirection));
-                            if (nextLightIfStraight === undefined || !nextLightIfStraight.isOn) {
+                            if (nextLightIfStraight === undefined) {
                                 this.actualDirection = 0;
                             }
                         }
@@ -103,4 +110,10 @@ function Enemy(player,map,x,y){
 isCentered = function(x, y) {
     var currentTile = map.getCurrentTile(x,y);
     return (x === currentTile.x*lightSize && y === currentTile.y*lightSize);
+};
+
+getDistance = function (x1,y1,x2,y2) {
+    var x = x1-x2;
+    var y = y1-y2;
+    return Math.sqrt(x*x + y*y);
 };

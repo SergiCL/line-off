@@ -26,10 +26,8 @@ function Battery(map, x, y) {
         animations: batterySpriteSheet.animations,
 
         update: function() {
-            var currentLight = map.getLight(map.getCurrentTile(this.x, this.y));
-            if (!currentLight.isOn) {
-                self.hide();
-            }
+            //TODO: ERROR: If una luz está apagada y se recoge la batería no vuelve a aparecer
+            console.log("Battery: {"+this.x+","+this.y+"}   Active: "+self.isActive);
         }
     });
     this.sprite.playAnimation('green');

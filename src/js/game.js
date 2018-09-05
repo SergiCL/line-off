@@ -8,11 +8,11 @@ canvas.height = 11.8*15+15;
 
 var map     = new LightMap(12, 22);
 var player  = new Player(map, 0, 0);
-var enemy   = new Enemy(player, map, 0, 0);
+var enemy   = new Enemy(player, map, 0, canvas.height);
 var battery = new Battery(map, 0, 0);
 
 var score  = -50;
-var power  =  65;
+var power  =  45;
 
 var toTakeOffTimer = 0;
 var toTakeOffLimit = 0;
@@ -31,6 +31,24 @@ for (row in map.mapOfLights){
 }
 
 var loop  = kontra.gameLoop({
+    //TODO: Add Music
+
+    render: function () {
+        map.mapOfLights.forEach(function(row) {
+            row.forEach(function(light) {
+                if(light != null)
+                    light.sprite.render({x:light.x, y:light.y});
+            });
+        });
+        battery.sprite.render(battery.x, battery.y);
+        player.sprite.render(player.sprite.x, player.sprite.y);
+        enemy.sprite.render(enemy.sprite.x, enemy.sprite.y);
+
+        ctx.font = "9px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "right";
+        ctx.fillText("Score: "+score+"   Power: "+power+" %", canvas.width-6, canvas.height);
+    },
     update: function () {
         player.sprite.update();
         enemy.sprite.update();
@@ -68,6 +86,10 @@ var loop  = kontra.gameLoop({
             toTakeOffTimer = 0;
         }
 
+        if (!map.getLight(map.getCurrentTile(battery.sprite.x, battery.sprite.y)).isOn) {
+            battery.hide();
+        }
+
         if(battery.isActive) {
             if(player.sprite.collidesWith(battery.sprite)) {
                 if (power < 95)
@@ -78,28 +100,13 @@ var loop  = kontra.gameLoop({
                 battery.hide();
             }
         }
-
         else {
             var tile = onLights[Math.floor(Math.random()*onLights.length)];
             battery.appear(tile.x, tile.y);
         }
 
-    },
-    render: function () {
-        map.mapOfLights.forEach(function(row) {
-            row.forEach(function(light) {
-                if(light != null)
-                    light.sprite.render({x:light.x, y:light.y});
-            });
-        });
-        battery.sprite.render(battery.x, battery.y);
-        player.sprite.render(player.sprite.x, player.sprite.y);
-        enemy.sprite.render(enemy.sprite.x, enemy.sprite.y);
+        console.log("OnLights:"+onLights.length);
 
-        ctx.font = "9px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "right";
-        ctx.fillText("Score: "+score+"   Power: "+power+" %", canvas.width-6, canvas.height);
     }
 });
 
