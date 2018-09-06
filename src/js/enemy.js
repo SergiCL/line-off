@@ -29,15 +29,9 @@ function Enemy(player, battery ,map,x,y){
             this.animations.move.update();
 
             if(getDistance(player.sprite.x,player.sprite.y,this.x, this.y) <= 10) {
-                alert("The monster killed you. Game Over!");
+                alert("You have died!\n\nTIP: \""+tips[Math.floor(Math.random() * tips.length)]+"\"\n\nScore: "+score);
                 window.location.reload();
             }
-
-            //this.nextDirection = Math.floor(Math.random()*3)+1;
-
-            //Siempre seguir la misma dirección hasta llegar a un cruce
-            //  Si batería arriba y se puede ir arriba: --> Arriba
-            //  Si batería abajo y se puede ir abajo: --> Abajo
 
             if(map.isACrossroad(this.x, this.y)) {
                 if (player.sprite.x > this.x && map.getNextTile(this.x, this.y, 2))
@@ -58,19 +52,6 @@ function Enemy(player, battery ,map,x,y){
             this.last_x = this.x;
             this.last_y = this.y;
             console.log("Enemy direction = "+this.nextDirection);
-
-
-
-
-
-            //TODO: If bateria.sprite.x > this.x--> Va a la derecha
-            //TODO: If bateria.sprite.x < this.x--> Va a la izquierda
-            //TODO: If bateria.sprite.y > this.y--> Va hacia abajo
-            //TODO: If bateria.sprite.y < this.y--> Va hacia arriba
-            //TODO: If distancia con bateria > 3 casillas --> Se acerca
-            //TODO: ELSE da vueltas a la zona.
-
-            //TODO: If está en la sombra: Desaparece.
 
             //Calculos
             var nextTile = map.getNextTile(this.x, this.y, this.nextDirection);

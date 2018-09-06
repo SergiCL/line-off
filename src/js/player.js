@@ -41,7 +41,7 @@ function Player(map, x, y){
             else {
                 var nextLight;
                 if(!map.getLight(map.getCurrentTile(this.x, this.y)).isOn) {
-                    alert("Darkness surrounds you. Game Over!");
+                    alert("You have died!\n\nTIP: \""+tips[Math.floor(Math.random() * tips.length)]+"\"\n\nScore: "+score);
                     window.location.reload();
                 }
 

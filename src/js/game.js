@@ -1,5 +1,16 @@
 kontra.init();
 
+var tips = [
+    "The less energy you have the faster the lines will turn off.",
+    "You can't turn on lights again. Keep the power above 50%.",
+    "The haunter is as fast as you, but probably more stupid.",
+    "Those things that look like radioactive coins will give you energy, pick them up.",
+    "The hunter is not afraid of dark...",
+    "Night is dark and full of terrors, you can't walk for there.",
+    "If something blinks, it's about to break.",
+    "He is better, be more intelligent"
+];
+
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
