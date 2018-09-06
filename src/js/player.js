@@ -5,6 +5,7 @@ function Player(map, x, y){
     this.sprite = kontra.sprite({
         x: x,
         y: y,
+        velocity: 1,
         actualDirection: 0,
         nextDirection:   0,
         image:   playerImg,
@@ -77,16 +78,16 @@ function Player(map, x, y){
             //Update sprite position
             switch(this.actualDirection) {
                 case directions.UP:
-                    this.y -= 1;
+                    this.y -= this.velocity;
                     break;
                 case directions.LEFT:
-                    this.x -= 1;
+                    this.x -= this.velocity;
                     break;
                 case directions.RIGHT:
-                    this.x += 1;
+                    this.x += this.velocity;
                     break;
                 case directions.DOWN:
-                    this.y += 1;
+                    this.y += this.velocity;
                     break;
             }
         },

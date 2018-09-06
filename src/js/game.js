@@ -105,8 +105,6 @@ var loop  = kontra.gameLoop({
             battery.appear(tile.x, tile.y);
         }
 
-        console.log("OnLights:"+onLights.length);
-
     }
 });
 

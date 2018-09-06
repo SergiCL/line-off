@@ -18,9 +18,11 @@ function Enemy(player, battery ,map,x,y){
     this.sprite = kontra.sprite({
         x: x,
         y: y,
+        last_x: x,
+        last_y: y,
         velocity :1,
     actualDirection: 0,
-        nextDirection:   0,
+        nextDirection:   1,
         animations: enemySpriteSheet.animations,
 
         update: function() {
@@ -37,15 +39,25 @@ function Enemy(player, battery ,map,x,y){
             //  Si batería arriba y se puede ir arriba: --> Arriba
             //  Si batería abajo y se puede ir abajo: --> Abajo
 
-                if(player.sprite.x > this.x && map.getNextTile(this.x, this.y, 2))
+            if(map.isACrossroad(this.x, this.y)) {
+                if (player.sprite.x > this.x && map.getNextTile(this.x, this.y, 2))
                     this.nextDirection = 2;
-                else if(player.sprite.x < this.x && map.getNextTile(this.x, this.y, 4))
+                else if (player.sprite.x < this.x && map.getNextTile(this.x, this.y, 4))
                     this.nextDirection = 4;
-                if(player.sprite.y > this.y && map.getNextTile(this.x, this.y, 3))
+                if (player.sprite.y > this.y && map.getNextTile(this.x, this.y, 3))
                     this.nextDirection = 3;
-                else if(player.sprite.y < this.y && map.getNextTile(this.x, this.y, 1))
+                else if (player.sprite.y < this.y && map.getNextTile(this.x, this.y, 1))
                     this.nextDirection = 1;
 
+                if (this.last_x === this.x && this.last_y === this.y) {
+                    while (this.actualDirection === this.nextDirection)
+                        this.nextDirection = Math.floor(Math.random() * 3) + 1;
+                }
+            }
+
+            this.last_x = this.x;
+            this.last_y = this.y;
+            console.log("Enemy direction = "+this.nextDirection);
 
 
 
@@ -102,6 +114,8 @@ function Enemy(player, battery ,map,x,y){
             }
 
             this.nextDirection = this.actualDirection;
+            if(this.nextDirection === 0)
+                this.nextDirection = Math.floor(Math.random() * 3) + 1;
 
             //Update sprite position
             switch(this.actualDirection) {
