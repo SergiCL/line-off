@@ -8,8 +8,8 @@ canvas.height = 11.8*15+15;
 
 var map     = new LightMap(12, 22);
 var player  = new Player(map, 0, 0);
-var enemy   = new Enemy(player, map, 0, canvas.height);
 var battery = new Battery(map, 0, 0);
+var enemy   = new Enemy(player, battery, map, canvas.width-22, 0);
 
 var score  = -50;
 var power  =  45;

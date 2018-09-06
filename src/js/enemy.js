@@ -13,13 +13,13 @@ var enemySpriteSheet = kontra.spriteSheet({
     }
 });
 
-function Enemy(player,map,x,y){
+function Enemy(player, battery ,map,x,y){
     this.player = player;
-    var self = this;
     this.sprite = kontra.sprite({
         x: x,
         y: y,
-        actualDirection: 0,
+        velocity :1,
+    actualDirection: 0,
         nextDirection:   0,
         animations: enemySpriteSheet.animations,
 
@@ -31,7 +31,26 @@ function Enemy(player,map,x,y){
                 window.location.reload();
             }
 
-            this.nextDirection = Math.floor(Math.random()*3)+1;
+            //this.nextDirection = Math.floor(Math.random()*3)+1;
+
+            //Siempre seguir la misma dirección hasta llegar a un cruce
+            //  Si batería arriba y se puede ir arriba: --> Arriba
+            //  Si batería abajo y se puede ir abajo: --> Abajo
+
+                if(player.sprite.x > this.x && map.getNextTile(this.x, this.y, 2))
+                    this.nextDirection = 2;
+                else if(player.sprite.x < this.x && map.getNextTile(this.x, this.y, 4))
+                    this.nextDirection = 4;
+                if(player.sprite.y > this.y && map.getNextTile(this.x, this.y, 3))
+                    this.nextDirection = 3;
+                else if(player.sprite.y < this.y && map.getNextTile(this.x, this.y, 1))
+                    this.nextDirection = 1;
+
+
+
+
+
+
             //TODO: If bateria.sprite.x > this.x--> Va a la derecha
             //TODO: If bateria.sprite.x < this.x--> Va a la izquierda
             //TODO: If bateria.sprite.y > this.y--> Va hacia abajo
@@ -87,16 +106,16 @@ function Enemy(player,map,x,y){
             //Update sprite position
             switch(this.actualDirection) {
                 case directions.UP:
-                    this.y -= 1;
+                    this.y -= this.velocity;
                     break;
                 case directions.LEFT:
-                    this.x -= 1;
+                    this.x -= this.velocity;
                     break;
                 case directions.RIGHT:
-                    this.x += 1;
+                    this.x += this.velocity;
                     break;
                 case directions.DOWN:
-                    this.y += 1;
+                    this.y += this.velocity;
                     break;
             }
         },
