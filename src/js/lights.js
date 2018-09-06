@@ -34,7 +34,7 @@ function Light (x,y) {
     Light.prototype.turnOff = function() {
         this.sprite.playAnimation('blink');
         var self = this;
-        turningOffTimeout = setTimeout(function () {console.log("Luz apagada"); self.isOn = false;}, 6500);
+        turningOffTimeout = setTimeout(function () {self.isOn = false;}, 6500);
     };
 
     Light.prototype.turnOn = function() {

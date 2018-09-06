@@ -26,7 +26,6 @@ function Battery(map, x, y) {
         animations: batterySpriteSheet.animations,
 
         update: function() {
-            //TODO: ERROR: If una luz está apagada y se recoge la batería no vuelve a aparecer
             console.log("Battery: {"+this.x+","+this.y+"}   Active: "+self.isActive);
         }
     });
@@ -39,11 +38,15 @@ Battery.prototype.hide = function() {
 };
 
 Battery.prototype.appear = function(x,y) {
-    var currentLight = map.getLight(map.getCurrentTile(this.x, this.y));
+    console.log("La batería quiere aparecer");
+    var currentLight = map.getLight(map.getCurrentTile(x, y));
     if (currentLight.isOn) {
+        console.log("La batería APARECE");
         this.isActive = true;
         this.sprite.x = x+3;
         this.sprite.y = y;
         this.sprite.playAnimation('green');
+    } else {
+        console.log("La batería NO APARECE");
     }
 };
