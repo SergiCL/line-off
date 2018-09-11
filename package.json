@@ -2,7 +2,7 @@
   "name": "lines-off",
   "version": "1.0.0",
   "description": "",
-  "main": "_build/index.html",
+  "main": "index.html",
   "scripts": {
     "start": "node app",
     "postinstall": "gulp default"
