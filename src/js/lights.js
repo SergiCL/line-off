@@ -34,14 +34,6 @@ function Light (x,y) {
     Light.prototype.turnOff = function() {
         this.sprite.playAnimation('blink');
         var self = this;
-        turningOffTimeout = setTimeout(function () {self.isOn = false;}, 6500);
+        setTimeout(function () {self.isOn = false;}, 6500);
     };
-
-    Light.prototype.turnOn = function() {
-        this.sprite.playAnimation('shine');
-        clearTimeout(turningOffTimeout);
-        this.isOn   = true;
-    };
-
-
 }

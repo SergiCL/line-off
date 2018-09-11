@@ -20,6 +20,7 @@ var map     = new LightMap(12, 22);
 var player  = new Player(map, 0, 0);
 var battery = new Battery(map, 0, 0);
 var enemy   = new Enemy(player, battery, map, canvas.width-22, 0);
+var enemy2  = new Enemy(player, battery, map, 0, canvas.height-22);
 
 var score  = -50;
 var power  =  45;
@@ -53,6 +54,7 @@ var loop  = kontra.gameLoop({
         battery.sprite.render(battery.x, battery.y);
         player.sprite.render(player.sprite.x, player.sprite.y);
         enemy.sprite.render(enemy.sprite.x, enemy.sprite.y);
+        enemy2.sprite.render(enemy2.sprite.x, enemy2.sprite.y);
 
         ctx.font = "9px Arial";
         ctx.fillStyle = "white";
@@ -62,6 +64,7 @@ var loop  = kontra.gameLoop({
     update: function () {
         player.sprite.update();
         enemy.sprite.update();
+        enemy2.sprite.update();
 
         map.mapOfLights.forEach(function(row) {
             row.forEach(function(light) {

@@ -5,9 +5,6 @@ var batterySpriteSheet = kontra.spriteSheet({
     frameWidth:  6,
     frameHeight: 12,
     animations:  {
-        off: {
-            frames: 4,
-        },
         green: {
             frames: 1
         }

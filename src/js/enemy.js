@@ -14,14 +14,13 @@ var enemySpriteSheet = kontra.spriteSheet({
 });
 
 function Enemy(player, battery ,map,x,y){
-    this.player = player;
     this.sprite = kontra.sprite({
         x: x,
         y: y,
         last_x: x,
         last_y: y,
         velocity :1,
-    actualDirection: 0,
+        actualDirection: 0,
         nextDirection:   1,
         animations: enemySpriteSheet.animations,
 
@@ -36,7 +35,7 @@ function Enemy(player, battery ,map,x,y){
             if(map.isACrossroad(this.x, this.y)) {
                 if (player.sprite.x > this.x && map.getNextTile(this.x, this.y, 2))
                     this.nextDirection = 2;
-                else if (player.sprite.x < this.x && map.getNextTile(this.x, this.y, 4))
+                else if (player.sprite.x <= this.x && map.getNextTile(this.x, this.y, 4))
                     this.nextDirection = 4;
                 if (player.sprite.y > this.y && map.getNextTile(this.x, this.y, 3))
                     this.nextDirection = 3;
@@ -44,8 +43,11 @@ function Enemy(player, battery ,map,x,y){
                     this.nextDirection = 1;
 
                 if (this.last_x === this.x && this.last_y === this.y) {
-                    while (this.actualDirection === this.nextDirection)
+                    this.actualDirection = this.nextDirection;
+                    while (this.actualDirection === this.nextDirection) {
                         this.nextDirection = Math.floor(Math.random() * 3) + 1;
+                    }
+
                 }
             }
 
