@@ -53,10 +53,8 @@ function Enemy(player, battery ,map,x,y){
             this.last_y = this.y;
             console.log("Enemy direction = "+this.nextDirection);
 
-            //Calculos
             var nextTile = map.getNextTile(this.x, this.y, this.nextDirection);
             if(!map.isTileInsideMap(nextTile)) {
-                //Evita que se pare a medio camino
                 if((this.nextDirection === this.actualDirection) && isCentered(this.x, this.y)
                     || (this.x === 0 && this.y === 0 && isCentered(this.x, this.y)) || (this.x === 315 && this.y === 0)
                     || (this.x === 315 && this.y === 165) || (this.x === 0 && this.y === 165))

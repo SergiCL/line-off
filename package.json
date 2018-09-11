@@ -2,9 +2,10 @@
   "name": "lines-off",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "_build/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app",
+    "postinstall": "gulp default"
   },
   "author": "Ayman Farhat",
   "license": "MIT",
