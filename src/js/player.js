@@ -1,3 +1,5 @@
+kontra.init();
+
 var playerImg = new Image();
 playerImg.src = './assets/imgs/player.png';
 

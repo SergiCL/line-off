@@ -1,4 +1,3 @@
-kontra.init();
 
 var tips = [
     "The less energy you have the faster the lines will turn off.",
