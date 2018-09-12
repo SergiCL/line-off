@@ -23,7 +23,7 @@ var enemy   = new Enemy(player, battery, map, canvas.width-22, 0);
 var enemy2  = new Enemy(player, battery, map, 0, canvas.height-22);
 
 var score  = -50;
-var power  =  45;
+var power  =  40;
 
 var toTakeOffTimer = 0;
 var toTakeOffLimit = 0;
@@ -121,4 +121,10 @@ var loop  = kontra.gameLoop({
     }
 });
 
+window.onload = function() {
+    if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+};
 loop.start();

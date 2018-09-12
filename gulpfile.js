@@ -15,6 +15,7 @@ var gulp          = require('gulp'),
     zip           = require('gulp-zip'),
     checkFileSize = require('gulp-check-filesize'),
     watch         = require('gulp-watch'),
+    order         = require("gulp-order");
 
     serveDir = './src',
 
@@ -27,7 +28,8 @@ var gulp          = require('gulp'),
         build: '_build',
         js_build_file: 'game.min.js',
         kontra_build_file: 'kontra_min.js',
-        css_build_file: 'game.min..css',
+        classes_build_file: 'clases.min.js',
+        css_build_file: 'game.min.css',
         imgs: '/imgs/*'
     },
 
@@ -36,11 +38,13 @@ var gulp          = require('gulp'),
             'src/css/*.css',
         ],
         js: [
-            'src/js/*.js',
             'src/js/game.js'
         ],
         kontra: [
             'src/js/kontra/kontra.js'
+        ],
+        classes: [
+            'src/js/classes.js',
         ],
         imgs: [
             'src/assets/imgs/*'
@@ -83,7 +87,7 @@ gulp.task('buildJS', function () {
 gulp.task('optimizeImages',function () {
     return gulp.src(sourcePaths.imgs)
         .pipe(imagemin())
-        .pipe(gulp.dest(distPaths.build+'/imgs/assets'))
+        .pipe(gulp.dest(distPaths.build+'/assets/imgs'))
 });
 
 gulp.task('buildKontra', function () {
@@ -93,11 +97,18 @@ gulp.task('buildKontra', function () {
         .pipe(gulp.dest(distPaths.build));
 });
 
+gulp.task('buildClasses', function () {
+    return gulp.src(sourcePaths.classes)
+        .pipe(concat(distPaths.classes_build_file))
+        .pipe(uglify())
+        .pipe(gulp.dest(distPaths.build));
+});
+
 gulp.task('buildIndex', function () {
     return gulp.src(sourcePaths.mainHtml)
         .pipe(replaceHTML({
             'css': distPaths.css_build_file,
-            'js': [distPaths.js_build_file, distPaths.kontra_build_file],
+            'js': [ distPaths.kontra_build_file, distPaths.classes_build_file, distPaths.js_build_file,],
         }))
         .pipe(minifyHTML())
         .pipe(rename('index.html'))
@@ -126,5 +137,5 @@ gulp.task('watch', function () {
     gulp.watch(sourcePaths.imgs, ['optimizeImages', 'zipBuild']);
 });
 
-gulp.task('build', ['optimizeImages', 'buildKontra', 'buildJS', 'buildCSS', 'buildIndex', 'zipBuild']);
+gulp.task('build', ['optimizeImages', 'buildKontra', 'buildClasses', 'buildJS', 'buildCSS', 'buildIndex', 'zipBuild']);
 gulp.task('default', ['build', 'serve', 'watch']);
